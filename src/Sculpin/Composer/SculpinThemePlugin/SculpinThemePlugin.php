@@ -99,12 +99,19 @@ class SculpinThemePlugin implements PluginInterface, EventSubscriberInterface
         $extra = $package->getExtra();
 
         if (isset($extra['sculpin-theme'])) {
+
+            //
+            // This allows potentially any package to contain a Sculpin theme.
+            //
+
             $theme = $extra['sculpin-theme'];
 
-            if (! isset($theme['name'])) {
-                throw new \RuntimeException(
-                    sprintf('Package %s has sculpin-theme configuration but provided no theme name', $package->getName())
-                );
+            if (isset($theme['name'])) {
+                if (! preg_match('/^[^\/]+\/[^\/]+$/', $theme['name'])) {
+                    throw new \InvalidArgumentException('Theme name must match pattern: {vendor}/{name}');
+                }
+            } else {
+                $theme['name'] = $package->getName();
             }
 
             $theme['installation-path'] = $this->getThemeDir() . '/' . $theme['name'];
@@ -113,8 +120,9 @@ class SculpinThemePlugin implements PluginInterface, EventSubscriberInterface
         }
 
         if ('sculpin-theme' === $package->getType()) {
-            throw new \RuntimeException(
-                sprintf('Package %s was declared as sculpin-theme but provided no theme name', $package->getName())
+            return array(
+                'name' => $package->getName(),
+                'installation-path' => $this->getThemeDir() . '/' . $package->getName(),
             );
         }
     }
