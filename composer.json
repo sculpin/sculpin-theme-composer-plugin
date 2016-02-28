@@ -2,7 +2,7 @@
     "name": "sculpin/sculpin-theme-composer-plugin",
     "type": "composer-plugin",
     "require": {
-        "composer-plugin-api": "1.0.0"
+        "composer-plugin-api": "^1.0"
     },
     "autoload": {
         "psr-0": {
