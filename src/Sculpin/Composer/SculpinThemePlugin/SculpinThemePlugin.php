@@ -7,8 +7,8 @@ use Composer\EventDispatcher\EventSubscriberInterface;
 use Composer\IO\IOInterface;
 use Composer\Package\PackageInterface;
 use Composer\Plugin\PluginInterface;
-use Composer\Script\PackageEvent;
-use Composer\Script\ScriptEvents;
+use Composer\Installer\PackageEvent;
+use Composer\Installer\PackageEvents;
 use Composer\Util\Filesystem;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -35,19 +35,19 @@ class SculpinThemePlugin implements PluginInterface, EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            ScriptEvents::PRE_PACKAGE_INSTALL => array(
+            PackageEvents::PRE_PACKAGE_INSTALL => array(
                 'onPrePackageInstall',
             ),
-            ScriptEvents::PRE_PACKAGE_UPDATE => array(
+            PackageEvents::PRE_PACKAGE_UPDATE => array(
                 'onPrePackageUpdate',
             ),
-            ScriptEvents::POST_PACKAGE_INSTALL => array(
+            PackageEvents::POST_PACKAGE_INSTALL => array(
                 'onPostPackageInstall',
             ),
-            ScriptEvents::POST_PACKAGE_UPDATE => array(
+            PackageEvents::POST_PACKAGE_UPDATE => array(
                 'onPostPackageUpdate',
             ),
-            ScriptEvents::POST_PACKAGE_UNINSTALL => array(
+            PackageEvents::POST_PACKAGE_UNINSTALL => array(
                 'onPostPackageUninstall',
             ),
         );
